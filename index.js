@@ -1,13 +1,16 @@
-function numDecodings(s) {
-  if (s.length === 0) return 0;
-  const dp = new Array(s.length + 1).fill(0);
-  dp[0] = 1;
-  dp[1] = s[0] !== "0" ? 1 : 0;
-  for (let i = 2; i <= s.length; i++) {
-    const oneDigit = parseInt(s.substring(i - 1, i));
-    const twoDigits = parseInt(s.substring(i - 2, i));
-    if (oneDigit >= 1) dp[i] += dp[i - 1];
-    if (twoDigits >= 10 && twoDigits <= 26) dp[i] += dp[i - 2];
+const quickSort = (arr) => {
+  if (arr.length <= 1) {
+    return arr;
   }
-  return dp[s.length];
-}
+  const pivot = arr[arr.length - 1];
+  const left = [];
+  const right = [];
+  for (let i = 0; i < arr.length - 1; i++) {
+    if (arr[i] < pivot) {
+      left.push(arr[i]);
+    } else {
+      right.push(arr[i]);
+    }
+  }
+  return quickSort(left).concat(pivot, quickSort(right));
+};
