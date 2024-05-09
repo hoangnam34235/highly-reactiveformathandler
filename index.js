@@ -1,16 +1,14 @@
-const quickSort = (arr) => {
-  if (arr.length <= 1) {
-    return arr;
-  }
-  const pivot = arr[arr.length - 1];
-  const left = [];
-  const right = [];
-  for (let i = 0; i < arr.length - 1; i++) {
-    if (arr[i] < pivot) {
-      left.push(arr[i]);
-    } else {
-      right.push(arr[i]);
+function wordBreak(s, wordDict) {
+  const set = new Set(wordDict);
+  const dp = new Array(s.length + 1).fill(false);
+  dp[0] = true;
+  for (let end = 1; end <= s.length; end++) {
+    for (let start = 0; start < end; start++) {
+      if (dp[start] && set.has(s.substring(start, end))) {
+        dp[end] = true;
+        break;
+      }
     }
   }
-  return quickSort(left).concat(pivot, quickSort(right));
-};
+  return dp[s.length];
+}
