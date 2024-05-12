@@ -1,30 +1,18 @@
-function numIslands(grid) {
-  if (grid.length === 0 || grid[0].length === 0) return 0;
-  const rows = grid.length;
-  const cols = grid[0].length;
-  let islands = 0;
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      if (grid[i][j] === "1") {
-        islands++;
-        dfs(i, j);
+function maximalSquare(matrix) {
+  if (matrix.length === 0 || matrix[0].length === 0) return 0;
+  const rows = matrix.length;
+  const cols = matrix[0].length;
+  const dp = Array.from({ length: rows + 1 }, () =>
+    Array.from({ length: cols + 1 }, () => 0),
+  );
+  let maxSquare = 0;
+  for (let i = 1; i <= rows; i++) {
+    for (let j = 1; j <= cols; j++) {
+      if (matrix[i - 1][j - 1] === "1") {
+        dp[i][j] = Math.min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]) + 1;
+        maxSquare = Math.max(maxSquare, dp[i][j]);
       }
     }
   }
-  return islands;
-  function dfs(row, col) {
-    if (
-      row < 0 ||
-      row >= rows ||
-      col < 0 ||
-      col >= cols ||
-      grid[row][col] !== "1"
-    )
-      return;
-    grid[row][col] = "0";
-    dfs(row + 1, col);
-    dfs(row - 1, col);
-    dfs(row, col + 1);
-    dfs(row, col - 1);
-  }
+  return maxSquare * maxSquare;
 }
